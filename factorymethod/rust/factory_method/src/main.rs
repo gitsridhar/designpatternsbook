@@ -1,6 +1,6 @@
 use consumer::consumer::Consumer;
-use consumer::consumer::AppleConsumer;
-use consumer::consumer::BananaConsumer;
+use consumer::consumer::{AppleConsumer,BananaConsumer};
+//use consumer::consumer::BananaConsumer;
 
 pub(crate) mod consumer;
 
