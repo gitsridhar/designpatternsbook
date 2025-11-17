@@ -30,7 +30,7 @@ public:
 class FruitConsumer: public Consumer {
 private:
     Fruit *fruit;
-    
+
 public:
     FruitConsumer() {
         this->StartConsuming();
