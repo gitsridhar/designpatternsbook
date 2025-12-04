@@ -9,10 +9,13 @@ public class Serving extends Dish {
   
     public void addDish(Dish dish) {
         dishes.add(dish);
+        dish.setParentDish(this);
     }
     public void removeDish(Dish dish) {
         dishes.remove(dish);
+        dish.setParentDish(null);
     }
+
     public List<Dish> getDishes() {
         return dishes;
     }
