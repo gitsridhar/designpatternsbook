@@ -1,4 +1,3 @@
-
 use crate::adaptee::adaptee::Chopper;
 use crate::target::target::Processor;
 

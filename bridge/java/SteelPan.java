@@ -6,4 +6,3 @@ public class SteelPan implements Pan {
         System.out.println("Cooking in Steel Pan");
     }
 }
-
