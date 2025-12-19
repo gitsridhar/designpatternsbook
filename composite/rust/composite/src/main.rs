@@ -1,43 +1,50 @@
 mod dish;
-mod saltandpepper;
-mod serving;
-mod soup;
 mod fruitsalad;
 mod maindish;
+mod saltandpepper;
+mod soup;
+mod serving;
 
-use saltandpepper::SaltAndPepper;
-use serving::Serving;
-use soup::Soup;
-use fruitsalad::FruitSalad;
-use maindish::MainDish;
-use dish::Eatable;
+use std::{cell::RefCell, rc::Rc};
+use crate::dish::Dish;
+use crate::fruitsalad::FruitSalad;
+use crate::maindish::MainDish;
+use crate::saltandpepper::SaltAndPepper;
+use crate::soup::Soup;
+use crate::serving::Serving;
+
+fn rc<C: Dish + 'static>(c: C) -> Rc<RefCell<dyn Dish>> {
+    Rc::new(RefCell::new(c))
+}
 
 fn main() {
-    println!("Hello, world!");
 
-    let saltandpepper = SaltAndPepper{};
+    let dinner = rc(Serving::new("dinner"));
 
-    let dinner = Serving{};
-    let appetizer = Serving{};
+    let saltandpepper = rc(SaltAndPepper::new("Salt and Pepper"));
 
-    let soup = Soup{};
-    let fruitsalad = FruitSalad{};
-    let maindish = MainDish{};
+    let appetizer = rc(Serving::new("Appetizer"));
+    appetizer
+        .borrow_mut()
+        .add(rc(Soup::new("Soup")));
+    appetizer
+        .borrow_mut()
+        .add(rc(FruitSalad::new("Fruit Salad")));
 
-    if appetizer.isComposite() {
-        appetizer.addDish(eatable: soup);
-        appetizer.addDish(eatable: fruitsalad);
-    }
+    let maincourse = rc(Serving::new("Main Course"));
+    maincourse
+        .borrow_mut()
+        .add(rc(MainDish::new("Main Dish")));
 
-    let maincourse = Serving{};
-    if maincourse.isComposite() {
-        maincourse.addDish(eatable: maindish);
-        maincourse.addDish(eatable: saltandpepper);
-    }
+    dinner.borrow_mut().add(saltandpepper);
+    dinner.borrow_mut().add(appetizer);
+    dinner.borrow_mut().add(maincourse);
 
-    dinner.addDish(eatable: appetizer);
-    dinner.addDish(eatable: maincourse);
+    // Print structure
+    println!("{}", dinner.borrow().operation(0));
 
-    let preparations = dinner.prepare();
-    println!("'{}'", preparations);
+    // Demonstrate removal
+    println!("Removing 'A2'...");
+    dinner.borrow_mut().remove("Salt and Pepper");
+    println!("{}", dinner.borrow().operation(0));
 }

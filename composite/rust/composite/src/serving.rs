@@ -1,33 +1,58 @@
-use crate::dish::Eatable;
+use std::{cell::RefCell, rc::Rc};
+use crate::dish::Dish;
 
 pub struct Serving {
-    pub dishes: Vec<Box<dyn Eatable>>,
+    name: String,
+    children: Vec<Rc<RefCell<dyn Dish>>>,
 }
 
 impl Serving {
-    pub fn new() -> Self {
+    pub fn new(name: impl Into<String>) -> Self {
         Serving {
-            dishes: Vec::new(),
+            name: name.into(),
+            children: Vec::new(),
         }
     }
 }
 
-impl Eatable for Serving {
-    fn addDish(&self, eatable: Eatable) {
-        self.dishes.push(Box::new(eatable))
+impl Dish for Serving {
+    fn name(&self) -> &str {
+        &self.name
     }
 
-    fn removeDish(&self, eatable: Eatable) {
-        //self.dishes.retain(|dish| dish != dish);
-    }
-    fn prepare(&self) -> String {
-        let retval = "Eatable : Serving : prepare".into();
-        for eatable in self.dishes {
-            retval += eatable.prepare();
+    fn operation(&self, indent: usize) -> String {
+        let mut out = format!("{}+ Serving: {}\n", " ".repeat(indent), self.name);
+        for c in &self.children {
+            out.push_str(&c.borrow().operation(indent + 2));
         }
-        retval
+        out
     }
-    fn isComposite(&self) -> bool {
+
+    fn add(&mut self, child: Rc<RefCell<dyn Dish>>) {
+        self.children.push(child);
+    }
+
+    fn remove(&mut self, name: &str) -> bool {
+        if let Some(pos) = self
+            .children
+            .iter()
+            .position(|c| c.borrow().name() == name)
+        {
+            self.children.remove(pos);
+            return true;
+        }
+        // Try to remove recursively from children that are composites
+        for c in &self.children {
+            if c.borrow().is_composite() {
+                if c.borrow_mut().remove(name) {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+
+    fn is_composite(&self) -> bool {
         true
     }
 }
