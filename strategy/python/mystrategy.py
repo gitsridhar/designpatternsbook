@@ -1,3 +1,4 @@
+
 from abc import ABC, abstractmethod
 
 class StrategyInterface(ABC):
@@ -6,11 +7,13 @@ class StrategyInterface(ABC):
     
 class OpenPanStrategy(StrategyInterface):
     def performOperation(self, a, b) -> str:
-        return "Open Pan Strategy " + (a + b)
+        retval = "Open Pan Strategy " + str(a + b)
+        return retval
 
 class ClosedPanStrategy(StrategyInterface):
     def performOperation(self, a, b) -> str:
-        return "Closed Pan Strategy " + (a * b)
+        retval = "Closed Pan Strategy " + str(a * b)
+        return retval
 
 class Strategy():
     def executeStrategy(self, a, b, strategyinterface) -> str:
@@ -19,12 +22,12 @@ class Strategy():
 class CriticalStrategy(Strategy):
     def executeStrategy(self, a, b, strategyinterface) -> str:
         print("Critica Strategy")
-        super().executeStrategy(a, b, strategyinterface)
+        return(super().executeStrategy(a, b, strategyinterface))
         
 class NonCriticalStrategy(Strategy):
     def executeStrategy(self, a, b, strategyinterface) -> str:
         print("Non-Critical Strategy")
-        super().executeStrategy(a, b, strategyinterface)
+        return(super().executeStrategy(a, b, strategyinterface))
 
 class FoodPreparation():
     def __init__(self):
@@ -35,8 +38,12 @@ class FoodPreparation():
         
     def prepareFood(self):
         if not self.strategyinterface == None:
-            a, b = 1, 2
-            print(self.strategyinterface.performOperation(a, b))
+            if self.strategyinterface.__class__ == CriticalStrategy:
+                a, b = 1, 2
+                print(self.strategyinterface.executeStrategy(a, b, OpenPanStrategy()))
+            elif self.strategyinterface.__class__ == NonCriticalStrategy:
+                a, b = 3, 4
+                print(self.strategyinterface.executeStrategy(a, b, ClosedPanStrategy()))    
         else:
             print("Strategy interface not set yet")
             
@@ -50,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

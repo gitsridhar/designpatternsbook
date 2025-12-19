@@ -5,5 +5,9 @@ public class ClosedPanStrategy implements StrategyInterface {
     public String performOperation(int a, int b) {
         return "Closed Pan Strategy: " + (a * b);
     }
-    
+
+    @Override
+    public String toString() {
+        return "ClosedPanStrategy []";
+    }
 }

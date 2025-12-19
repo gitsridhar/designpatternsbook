@@ -6,4 +6,5 @@ public class ClosedStrategy extends Strategy {
         System.out.println("Non-Critical Strategy Executed");
         return strategy.performOperation(a, b);
     }
+    
 }
