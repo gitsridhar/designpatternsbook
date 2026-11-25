@@ -97,5 +97,5 @@ int main() {
 
     SecondFactory *f2 = new SecondFactory();
     Usage(*f2);
-    delete f1;
+    delete f2;
 }

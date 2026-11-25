@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Fruit(ABC):
+    @abstractmethod
     def consume(self) -> str:
         pass
     
@@ -13,8 +14,10 @@ class Banana(Fruit):
         return "Banana: Peel and Eat"
     
 class Vegetable(ABC):
+    @abstractmethod
     def cookAndConsume(self) -> str:
         pass
+    @abstractmethod
     def serve(self) -> str:
         pass
     
@@ -31,8 +34,10 @@ class Beans(Vegetable):
         return "Beans: In a bowl"
 
 class MyFactory(ABC):
+    @abstractmethod
     def consumeFruit(self) -> str:
         pass
+    @abstractmethod
     def consumeVegetable(self) -> str:
         pass
 

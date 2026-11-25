@@ -4,10 +4,10 @@ import "fmt"
 
 func main() {
 	firstfact := FirstFactory{}
-	fmt.Println(firstfact.consumeFruit())
-	fmt.Println(firstfact.consumeVegetable())
+	fmt.Println(firstfact.consumeFruit().consume(""))
+	fmt.Println(firstfact.consumeVegetable().consume(""))
 
 	secondfact := SecondFactory{}
-	fmt.Println(secondfact.consumeFruit())
-	fmt.Println(secondfact.consumeVegetable())
+	fmt.Println(secondfact.consumeFruit().consume(""))
+	fmt.Println(secondfact.consumeVegetable().consume(""))
 }

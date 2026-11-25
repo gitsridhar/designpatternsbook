@@ -44,7 +44,7 @@ protocol Factory {
     func consumeVegetable() -> Vegetable
 }
 
-struct FruitFactory {
+struct FruitFactory: Factory {
     func consumeFruit() -> Fruit {
         let f = Apple()
         return f
@@ -56,7 +56,7 @@ struct FruitFactory {
     }
 }
 
-struct VegetableFactory {
+struct VegetableFactory: Factory {
     func consumeFruit() -> Fruit {
         let f = Banana()
         return f
